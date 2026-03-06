@@ -22,7 +22,7 @@ def list_tasks(tasks):
 
 def main():
     tasks = load_tasks()
-    tasks.add_task("playing")
+    add_task(tasks, "playing")
 
     print(list_tasks(tasks))
 
