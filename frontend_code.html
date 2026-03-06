@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Task Manager</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f4f4;
+margin:40px;
+}
+
+.container{
+background:white;
+padding:20px;
+width:400px;
+border-radius:8px;
+box-shadow:0px 0px 10px rgba(0,0,0,0.1);
+}
+
+h2{
+text-align:center;
+}
+
+input{
+width:70%;
+padding:8px;
+}
+
+button{
+padding:8px;
+background:#007bff;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+ul{
+list-style:none;
+padding:0;
+}
+
+li{
+padding:8px;
+border-bottom:1px solid #ddd;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Task List</h2>
+
+<input id="taskInput" placeholder="Enter new task">
+<button onclick="addTask()">Add</button>
+
+<ul id="taskList"></ul>
+
+</div>
+
+<script>
+
+const API_URL = "http://localhost:5000/tasks"
+
+
+async function loadTasks(){
+
+const response = await fetch(API_URL)
+const tasks = await response.json()
+
+const list = document.getElementById("taskList")
+list.innerHTML = ""
+
+tasks.forEach(task => {
+
+const li = document.createElement("li")
+
+li.textContent = task.task + " (" + task.status + ")"
+
+list.appendChild(li)
+
+})
+
+}
+
+
+async function addTask(){
+
+const input = document.getElementById("taskInput")
+
+const task = input.value
+
+await fetch(API_URL,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({task:task})
+
+})
+
+input.value=""
+
+loadTasks()
+
+}
+
+loadTasks()
+
+</script>
+
+</body>
+
+</html>
