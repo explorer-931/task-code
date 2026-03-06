@@ -22,6 +22,8 @@ def list_tasks(tasks):
 
 def main():
     tasks = load_tasks()
+    tasks.add_task("playing")
+
     print(list_tasks(tasks))
 
 if __name__ == "__main__":
